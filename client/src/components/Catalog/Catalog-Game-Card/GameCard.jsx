@@ -1,9 +1,12 @@
+import { Link } from "react-router-dom";
+
 export default function GameCard({
     category,
     imageUrl,
     maxLevel,
     summary,
     title
+    ,_id
 }) {
     return (
         <div className="allGames">
@@ -11,9 +14,9 @@ export default function GameCard({
                 <img src={imageUrl} />
                 <h6>{category}</h6>
                 <h2>{title}</h2>
-                <a href="#" className="details-button">
+                <Link to={`/details/${_id}`} className="details-button">
                     Details
-                </a>
+                </Link>
             </div>
         </div>
     )

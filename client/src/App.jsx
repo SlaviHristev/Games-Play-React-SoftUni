@@ -6,6 +6,7 @@ import Create from './components/Create/Create'
 import Catalog from './components/Catalog/Catalog'
 import Login from './components/Login/Login'
 import Register from './components/Register/Register'
+import Details from './components/Catalog/Details/Details'
 
 
 function App() {
@@ -20,6 +21,7 @@ function App() {
        <Route path='catalog' element={<Catalog/>}/>
        <Route path='login' element={<Login/>}/>
        <Route path='register' element={<Register/>}/>
+       <Route path='details/:id' element={<Details/>}/>
     </Routes>
    </div>
   )

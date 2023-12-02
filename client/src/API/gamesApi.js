@@ -42,3 +42,12 @@ export const create = async (data) => {
         throw new Error(error)
     }
 }
+export const getOne = async (id) => {
+    try {
+        const response = await fetch(`${host}/${id}`);
+        const data = response.json();
+        return data
+    } catch (error) {
+        throw new Error(error)
+    }
+}
