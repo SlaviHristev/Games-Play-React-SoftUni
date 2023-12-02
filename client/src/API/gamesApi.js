@@ -1,4 +1,3 @@
-import * as request from '../lib/request';
 
 const host = 'http://localhost:3030/jsonstore/games'
 
@@ -27,3 +26,19 @@ export const getAll = async () => {
         return [];
     }
 };
+
+export const create = async (data) => {
+    try {
+        const response = await fetch(host,{
+            method:'POST',
+            headers:{
+                'Content-type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        });
+        return response;
+        
+    } catch (error) {
+        throw new Error(error)
+    }
+}
