@@ -1,12 +1,13 @@
+import { useContext } from "react"
 import useForm from "../../hooks/useForm"
+import authContext from "../../contexts/authContext"
 
-export default function Login({
-    loginSubmitHandler
-}) {
+export default function Login() {
     const initialFormData = {
-        email:'',
-        password:''
+        email: '',
+        password: ''
     }
+    const { loginSubmitHandler } = useContext(authContext)
     const { formData, handleChange, handleSubmit, resetForm } = useForm(initialFormData, loginSubmitHandler)
 
 
@@ -29,11 +30,11 @@ export default function Login({
                     <input
                         type="password"
                         id="login-password"
-                        name="password" 
+                        name="password"
                         onChange={handleChange}
                         value={formData.password}
-                        />
-                        
+                    />
+
                     <input
                         type="submit"
                         className="btn submit"

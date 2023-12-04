@@ -9,6 +9,7 @@ import Catalog from './components/Catalog/Catalog'
 import Login from './components/Login/Login'
 import Register from './components/Register/Register'
 import Details from './components/Catalog/Details/Details'
+import AuthContext from './contexts/authContext'
 
 
 function App() {
@@ -19,17 +20,19 @@ function App() {
   }
 
   return (
+    <AuthContext.Provider value={loginSubmitHandler}>
     <div id="box">
       <Header />
       <Routes>
         <Route path='/' element={<Home />} />
         <Route path='create' element={<Create />} />
         <Route path='catalog' element={<Catalog />} />
-        <Route path='login' element={<Login loginSubmitHandler={loginSubmitHandler}/>} />
+        <Route path='login' element={<Login />} />
         <Route path='register' element={<Register />} />
         <Route path='details/:id' element={<Details />} />
       </Routes>
     </div>
+    </AuthContext.Provider>
   )
 }
 
