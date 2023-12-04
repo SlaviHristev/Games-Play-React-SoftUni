@@ -10,7 +10,7 @@ export default function Details() {
         gamesApi.getOne(id)
         .then(setGame)
     },[id])
-    console.log(game);
+    
 
     return (
         <section id="game-details">
