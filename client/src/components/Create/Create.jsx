@@ -1,4 +1,4 @@
-import { useState } from "react";
+
 import * as gamesApi from '../../API/gamesApi'
 import { useNavigate } from "react-router-dom";
 import useForm from "../../hooks/useForm";
@@ -10,30 +10,26 @@ export default function Create() {
     const navigate = useNavigate();
     const initialFormData = {
         title: '',
-        category:'',
-        maxLevel:'',
-        imageUrl:'',
+        category: '',
+        maxLevel: '',
+        imageUrl: '',
     }
 
-    const changeHandler = (e) => {
-        const {name, value} = e.target;
-        setFormData((prevData) => ({...prevData, [name]: value}));
-    };
-    
- 
+  
+
     const onSubmit = async (formData) => {
         try {
-          const res = await gamesApi.create(formData);
-          navigate('/catalog')
-          console.log(res);
-         
-        } catch (error) {
-          console.error('Error submitting form:', error);
-        }
-      };
-    
+            const res = await gamesApi.create(formData);
+            navigate('/catalog')
+            console.log(res);
 
-    const {formData, handleChange, handleSubmit, resetForm} = useForm(initialFormData,onSubmit)
+        } catch (error) {
+            console.error('Error submitting form:', error);
+        }
+    };
+
+
+    const { formData, handleChange, handleSubmit, resetForm } = useForm(initialFormData, onSubmit)
     return (
         <section id="create-page" className="auth">
             <form id="create" onSubmit={handleSubmit}>
