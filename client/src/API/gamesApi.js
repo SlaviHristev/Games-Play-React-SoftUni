@@ -1,12 +1,10 @@
+import * as request from '../lib/request';
 
-const host = 'http://localhost:3030/jsonstore/games'
+const host = 'http://localhost:3030/data/games'
 
 export const getAll = async () => {
     try {
-        const response = await fetch(host, {
-            method: 'GET',
-            headers: {}
-        });
+        const response = await request.get();
 
         if (!response.ok) {
             throw new Error(`HTTP error! Status: ${response.status}`);
@@ -29,13 +27,7 @@ export const getAll = async () => {
 
 export const create = async (data) => {
     try {
-        const response = await fetch(host,{
-            method:'POST',
-            headers:{
-                'Content-type': 'application/json'
-            },
-            body: JSON.stringify(data)
-        });
+        const response = await request.post(host,data);
         return response;
         
     } catch (error) {

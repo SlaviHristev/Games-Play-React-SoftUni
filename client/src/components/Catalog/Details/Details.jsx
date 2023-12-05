@@ -1,16 +1,42 @@
-import { useEffect, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
-import * as gamesApi from '../../../API/gamesApi'
+import * as gamesApi from '../../../API/gamesApi';
+import * as commentApi from '../../../API/commentsApi';
+import AuthContext from "../../../contexts/authContext";
+
 
 export default function Details() {
-    const {id} = useParams()
+    const {email} = useContext(AuthContext);
+    const { id } = useParams()
 
-    const [game,setGame] = useState({});
+    const [game, setGame] = useState({});
+    const [comments, setComments] = useState([])
     useEffect(() => {
         gamesApi.getOne(id)
-        .then(setGame)
-    },[id])
+            .then(setGame)
+
+        commentApi.getAll(id)
+            .then(setComments)
+
+    }, [id])
+    console.log(comments);
+
+    const addCommentHandler = async (e) => {
+        e.preventDefault();
+        try {
+            const formData = new FormData(e.currentTarget);
     
+            const newComment = await commentApi.create(
+                id,
+                formData.get('comment')
+            );
+            setComments(state => [...state, {...newComment, owner: {email}}])
+            
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
 
     return (
         <section id="game-details">
@@ -25,20 +51,22 @@ export default function Details() {
                 <p className="text">
                     {game.summary}
                 </p>
-                {/* Bonus ( for Guests and Users ) */}
+               
                 <div className="details-comments">
                     <h2>Comments:</h2>
                     <ul>
-                        {/* list all comments for current game (If any) */}
-                        <li className="comment">
-                            <p>Content: I rate this one quite highly.</p>
-                        </li>
-                        <li className="comment">
-                            <p>Content: The best game.</p>
-                        </li>
+
+                        {comments.map(({ _id,text, owner:{ email } }) => (
+                            <li key={_id} className="comment">
+                                <p>{email}: {text}</p>
+                            </li>
+                        ))}
                     </ul>
-                    {/* Display paragraph: If there are no games in the database */}
-                    <p className="no-comment">No comments.</p>
+
+                    {comments.length === 0 && (
+                        <p className="no-comment">No comments.</p>
+                    )}
+
                 </div>
                 {/* Edit/Delete buttons ( Only for creator of this game )  */}
                 {/* <div className="buttons">
@@ -54,12 +82,12 @@ export default function Details() {
             {/* Add Comment ( Only for logged-in users, which is not creators of the current game ) */}
             <article className="create-comment">
                 <label>Add new comment:</label>
-                <form className="form">
+                <form className="form" onSubmit={addCommentHandler}>
                     <textarea name="comment" placeholder="Comment......" defaultValue={""} />
                     <input className="btn submit" type="submit" defaultValue="Add Comment" />
                 </form>
             </article>
-        </section>
+        </section >
 
     )
 }
