@@ -1,6 +1,8 @@
 import { Routes, Route } from 'react-router-dom'
 import { useState } from 'react'
 
+import * as userApi from './API/usersApi';
+
 import '../styles/style.css'
 import Home from "./components/Home/Home"
 import Header from "./components/Header/Header"
@@ -15,23 +17,25 @@ import AuthContext from './contexts/authContext'
 function App() {
   const [auth, setAuth] = useState({});
 
-  const loginSubmitHandler = (values) =>{
-    console.log(values);
+  const loginSubmitHandler = async (values) => {
+    const result = await userApi.login(values.email, values.password);
+    console.log(result);
+
   }
 
   return (
-    <AuthContext.Provider value={loginSubmitHandler}>
-    <div id="box">
-      <Header />
-      <Routes>
-        <Route path='/' element={<Home />} />
-        <Route path='create' element={<Create />} />
-        <Route path='catalog' element={<Catalog />} />
-        <Route path='login' element={<Login />} />
-        <Route path='register' element={<Register />} />
-        <Route path='details/:id' element={<Details />} />
-      </Routes>
-    </div>
+    <AuthContext.Provider value={{loginSubmitHandler}}>
+      <div id="box">
+        <Header />
+        <Routes>
+          <Route path='/' element={<Home />} />
+          <Route path='create' element={<Create />} />
+          <Route path='catalog' element={<Catalog />} />
+          <Route path='login' element={<Login />} />
+          <Route path='register' element={<Register />} />
+          <Route path='details/:id' element={<Details />} />
+        </Routes>
+      </div>
     </AuthContext.Provider>
   )
 }

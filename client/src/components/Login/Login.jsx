@@ -1,13 +1,13 @@
 import { useContext } from "react"
 import useForm from "../../hooks/useForm"
-import authContext from "../../contexts/authContext"
+import AuthContext from "../../contexts/authContext"
 
 export default function Login() {
     const initialFormData = {
         email: '',
         password: ''
     }
-    const { loginSubmitHandler } = useContext(authContext)
+    const { loginSubmitHandler } = useContext(AuthContext)
     const { formData, handleChange, handleSubmit, resetForm } = useForm(initialFormData, loginSubmitHandler)
 
 
@@ -17,7 +17,7 @@ export default function Login() {
                 <div className="container">
                     <div className="brand-logo" />
                     <h1>Login</h1>
-                    <label htmlforfor="email">Email:</label>
+                    <label htmlFor="email">Email:</label>
                     <input
                         type="email"
                         id="email"
@@ -26,7 +26,7 @@ export default function Login() {
                         onChange={handleChange}
                         value={formData.email}
                     />
-                    <label htmlforfor="login-pass">Password:</label>
+                    <label htmlFor="login-pass">Password:</label>
                     <input
                         type="password"
                         id="login-password"
@@ -38,7 +38,7 @@ export default function Login() {
                     <input
                         type="submit"
                         className="btn submit"
-                        defaultValue="Login" />
+                        value="Login" />
                     <p className="field">
                         <span>
                             If you don't have profile click <a href="#">here</a>
