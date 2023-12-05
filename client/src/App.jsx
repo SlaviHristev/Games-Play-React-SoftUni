@@ -12,6 +12,7 @@ import Login from './components/Login/Login'
 import Register from './components/Register/Register'
 import Details from './components/Catalog/Details/Details'
 import AuthContext from './contexts/authContext'
+import Logout from './components/Logout/Logout';
 
 
 function App() {
@@ -32,13 +33,18 @@ function App() {
         navigate('/')
         setAuth(result)
     }
+    const logoutHandler = () =>{
+        setAuth({});
+        navigate('/');
+    }
 
     const values = {
         loginSubmitHandler,
         registerSubmitHandler,
+        logoutHandler,
         username: auth.username || auth.email,
         email: auth.email,
-        isAuthenticated: !!auth.email
+        isAuthenticated: !!auth.accessToken
     }
 
     return (
@@ -52,6 +58,7 @@ function App() {
                     <Route path='login' element={<Login />} />
                     <Route path='register' element={<Register />} />
                     <Route path='details/:id' element={<Details />} />
+                    <Route path='logout' element={<Logout />} />
                 </Routes>
             </div>
         </AuthContext.Provider>
