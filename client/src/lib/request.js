@@ -12,6 +12,13 @@ async function request(method,url,data){
         options.body = JSON.stringify(data);
     };
 
+    const token = localStorage.getItem('accessToken');
+    if(token){
+        options.headers = {
+            ...options.headers,
+            'X-Authorization':token
+        }
+    }
     try {
         const response = await fetch(url, options);
         if(response.ok != true){
