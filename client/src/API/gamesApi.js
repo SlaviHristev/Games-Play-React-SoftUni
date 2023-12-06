@@ -4,21 +4,19 @@ const host = 'http://localhost:3030/data/games'
 
 export const getAll = async () => {
     try {
-        const response = await request.get();
-
-        if (!response.ok) {
-            throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-
-        const data = await response.json();
-
-        if (typeof data === 'object' && data !== null) {
-            const gamesArray = Object.values(data);
-            return gamesArray;
-        } else {
-            console.error("API response does not contain a valid object:", data);
-            return [];
-        }
+        
+            const response = await fetch(host);
+            console.log(response);
+    
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+    
+            const responseBody = await response.text();
+            const jsonData = responseBody ? JSON.parse(responseBody) : null;
+    
+            return jsonData;
+        
     } catch (error) {
         console.error("Error fetching data:", error);
         return [];

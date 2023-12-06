@@ -6,7 +6,7 @@ import AuthContext from "../../../contexts/authContext";
 
 
 export default function Details() {
-    const {email} = useContext(AuthContext);
+    const { email, _id } = useContext(AuthContext);
     const { id } = useParams()
 
     const [game, setGame] = useState({});
@@ -24,13 +24,13 @@ export default function Details() {
         e.preventDefault();
         try {
             const formData = new FormData(e.currentTarget);
-    
+
             const newComment = await commentApi.create(
                 id,
                 formData.get('comment')
             );
-            setComments(state => [...state, {...newComment, owner: {email}}])
-            
+            setComments(state => [...state, { ...newComment, owner: { email } }])
+
         } catch (error) {
             console.log(error);
         }
@@ -50,12 +50,12 @@ export default function Details() {
                 <p className="text">
                     {game.summary}
                 </p>
-               
+
                 <div className="details-comments">
                     <h2>Comments:</h2>
                     <ul>
 
-                        {comments.map(({ _id,text, owner:{ email } }) => (
+                        {comments.map(({ _id, text, owner: { email } }) => (
                             <li key={_id} className="comment">
                                 <p>{email}: {text}</p>
                             </li>
@@ -67,18 +67,20 @@ export default function Details() {
                     )}
 
                 </div>
-                {/* Edit/Delete buttons ( Only for creator of this game )  */}
-                {/* <div className="buttons">
-                    <a href="#" className="button">
-                        Edit
-                    </a>
-                    <a href="#" className="button">
-                        Delete
-                    </a>
-                </div> */}
+                
+                {_id === game._ownerId && (
+                    <div className="buttons">
+                        <a href="#" className="button">
+                            Edit
+                        </a>
+                        <a href="#" className="button">
+                            Delete
+                        </a>
+                    </div>
+                )}
             </div>
-            {/* Bonus */}
-            {/* Add Comment ( Only for logged-in users, which is not creators of the current game ) */}
+
+
             <article className="create-comment">
                 <label>Add new comment:</label>
                 <form className="form" onSubmit={addCommentHandler}>
