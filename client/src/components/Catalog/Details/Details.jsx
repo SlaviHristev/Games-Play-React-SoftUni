@@ -1,22 +1,37 @@
-import { useContext, useEffect, useState } from "react"
+import { useContext, useEffect, useReducer, useState } from "react"
 import { useParams } from "react-router-dom"
 import * as gamesApi from '../../../API/gamesApi';
 import * as commentApi from '../../../API/commentsApi';
 import AuthContext from "../../../contexts/authContext";
 
+const reducer = (state,action) =>{
+    switch (action?.type) {
+        case 'GET_ALL_GAMES':
+            return [...action.payload];
+        case'ADD_COMMENT':
+            return [...state, action.payload]
+        default:
+            return state;
+    }
+}
 
 export default function Details() {
     const { email, _id } = useContext(AuthContext);
     const { id } = useParams()
 
     const [game, setGame] = useState({});
-    const [comments, setComments] = useState([])
+    const [comments, dispatch] = useReducer(reducer,[])
     useEffect(() => {
         gamesApi.getOne(id)
             .then(setGame)
 
         commentApi.getAll(id)
-            .then(setComments)
+            .then((result) =>
+            dispatch({
+                type:'GET_ALL_GAMES',
+                payload: result
+            })
+            )
 
     }, [id])
 
@@ -28,8 +43,14 @@ export default function Details() {
             const newComment = await commentApi.create(
                 id,
                 formData.get('comment')
+                
             );
-            setComments(state => [...state, { ...newComment, owner: { email } }])
+            newComment.owner = {email};
+
+           dispatch({
+            type:'ADD_COMMENT',
+            payload:newComment
+           })
 
         } catch (error) {
             console.log(error);
@@ -55,7 +76,7 @@ export default function Details() {
                     <h2>Comments:</h2>
                     <ul>
 
-                        {comments.map(({ _id, text, owner: { email } }) => (
+                        {comments.map(({ _id, text}) => (
                             <li key={_id} className="comment">
                                 <p>{email}: {text}</p>
                             </li>
