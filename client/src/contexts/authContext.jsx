@@ -1,8 +1,9 @@
 import { createContext } from "react";
-import { useState } from 'react';
+
 import { useNavigate } from 'react-router-dom'
 
 import * as userApi from '../API/usersApi';
+import usePersistedState from "../hooks/usePersistedState";
 
 const AuthContext = createContext();
 
@@ -12,10 +13,7 @@ export const AuthProvider = ({
 }) => {
 
     const navigate = useNavigate();
-    const [auth, setAuth] = useState(() => {
-        localStorage.removeItem('accessToken');
-        return {}
-    });
+    const [auth, setAuth] = usePersistedState('auth', {});
 
     const loginSubmitHandler = async (values) => {
         const result = await userApi.login(values.email, values.password);
