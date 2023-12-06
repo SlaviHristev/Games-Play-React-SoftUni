@@ -19,7 +19,6 @@ export default function Details() {
             .then(setComments)
 
     }, [id])
-    console.log(comments);
 
     const addCommentHandler = async (e) => {
         e.preventDefault();
