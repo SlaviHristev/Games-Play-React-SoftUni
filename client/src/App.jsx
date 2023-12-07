@@ -11,6 +11,7 @@ import Register from './components/Register/Register'
 import Details from './components/Catalog/Details/Details'
 import Logout from './components/Logout/Logout';
 import {AuthProvider} from './contexts/authContext'
+import Edit from './components/Edit/Edit'
 
 
 function App() {
@@ -27,6 +28,7 @@ function App() {
                     <Route path='register' element={<Register />} />
                     <Route path='details/:id' element={<Details />} />
                     <Route path='logout' element={<Logout />} />
+                    <Route path='details/:id/edit' element={<Edit />} />
                 </Routes>
             </div>
         </AuthProvider>

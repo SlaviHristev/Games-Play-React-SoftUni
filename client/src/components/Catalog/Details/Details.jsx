@@ -1,5 +1,5 @@
 import { useContext, useEffect, useReducer, useState } from "react"
-import { useParams } from "react-router-dom"
+import { Link, useParams } from "react-router-dom"
 import * as gamesApi from '../../../API/gamesApi';
 import * as commentApi from '../../../API/commentsApi';
 import AuthContext from "../../../contexts/authContext";
@@ -91,12 +91,12 @@ export default function Details() {
                 
                 {_id === game._ownerId && (
                     <div className="buttons">
-                        <a href="#" className="button">
+                        <Link to={`/details/${game._id}/edit`} className="button">
                             Edit
-                        </a>
-                        <a href="#" className="button">
+                        </Link>
+                        <Link href={`/details/${game._id}/delete`} className="button">
                             Delete
-                        </a>
+                        </Link>
                     </div>
                 )}
             </div>

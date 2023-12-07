@@ -40,4 +40,9 @@ export const getOne = async (id) => {
     } catch (error) {
         throw new Error(error)
     }
+};
+
+export const edit = async (id, data) => {
+    const response = await request.put(`${host}/${id}`, data);
+    return response;
 }
