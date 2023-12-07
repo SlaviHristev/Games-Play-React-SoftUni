@@ -4,19 +4,19 @@ const host = 'http://localhost:3030/data/games'
 
 export const getAll = async () => {
     try {
-        
-            const response = await fetch(host);
-            console.log(response);
-    
-            if (!response.ok) {
-                throw new Error(`HTTP error! Status: ${response.status}`);
-            }
-    
-            const responseBody = await response.text();
-            const jsonData = responseBody ? JSON.parse(responseBody) : null;
-    
-            return jsonData;
-        
+
+        const response = await fetch(host);
+        console.log(response);
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
+        const responseBody = await response.text();
+        const jsonData = responseBody ? JSON.parse(responseBody) : null;
+
+        return jsonData;
+
     } catch (error) {
         console.error("Error fetching data:", error);
         return [];
@@ -25,9 +25,9 @@ export const getAll = async () => {
 
 export const create = async (data) => {
     try {
-        const response = await request.post(host,data);
+        const response = await request.post(host, data);
         return response;
-        
+
     } catch (error) {
         throw new Error(error)
     }
@@ -43,6 +43,11 @@ export const getOne = async (id) => {
 };
 
 export const edit = async (id, data) => {
-    const response = await request.put(`${host}/${id}`, data);
-    return response;
-}
+    try {
+        const response = await request.put(`${host}/${id}`, data);
+        return response;
+    } catch (error) {
+        console.error('Error editing game:', error);
+        throw error;
+    }
+};
