@@ -1,5 +1,5 @@
 import { useContext, useEffect, useReducer, useState } from "react"
-import { Link, useParams } from "react-router-dom"
+import { Link, useNavigate, useParams } from "react-router-dom"
 import * as gamesApi from '../../../API/gamesApi';
 import * as commentApi from '../../../API/commentsApi';
 import AuthContext from "../../../contexts/authContext";
@@ -16,6 +16,7 @@ const reducer = (state,action) =>{
 }
 
 export default function Details() {
+    const navigate = useNavigate();
     const { email, _id } = useContext(AuthContext);
     const { id } = useParams()
 
@@ -57,6 +58,14 @@ export default function Details() {
         }
     }
 
+    const onDeleteHandler = async () =>{
+        const isConfirmed = confirm('Are you sure you want to delete the game?');
+        console.log(isConfirmed);
+        if(isConfirmed){
+            await gamesApi.remove(id);
+            navigate('/catalog');
+        }
+    }
 
     return (
         <section id="game-details">
@@ -94,9 +103,7 @@ export default function Details() {
                         <Link to={`/details/${game._id}/edit`} className="button">
                             Edit
                         </Link>
-                        <Link href={`/details/${game._id}/delete`} className="button">
-                            Delete
-                        </Link>
+                        <button onClick={onDeleteHandler} className="button">Delete</button>
                     </div>
                 )}
             </div>

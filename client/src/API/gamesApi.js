@@ -51,3 +51,12 @@ export const edit = async (id, data) => {
         throw error;
     }
 };
+
+export const remove = async(id) =>{
+    try {
+        const response = await request.del(`${host}/${id}`);
+        return response;
+    } catch (error) {
+        throw new Error(error)
+    }
+}

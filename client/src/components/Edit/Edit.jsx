@@ -28,11 +28,9 @@ export default function Edit() {
         e.preventDefault();
         const formData = new FormData(e.currentTarget);
         const data = Object.fromEntries(formData);
-        console.log(data);
         try {
             const res = await gamesApi.edit(id, data);
             navigate('/catalog');
-            console.log(`Res:${res}`);
         } catch (error) {
             console.error('Error submitting form:', error);
         }
