@@ -60,3 +60,17 @@ export const remove = async(id) =>{
         throw new Error(error)
     }
 }
+
+export const getLatest = async () => {
+    const query = new URLSearchParams({
+        offset: 0,
+        pageSize:3,
+    })
+    try {
+        const response = await request.get(`${host}?${query}`);
+        return response
+        
+    } catch (error) {
+    throw new Error(error)        
+    }
+}
