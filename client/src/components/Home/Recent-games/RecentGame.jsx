@@ -1,9 +1,12 @@
+import { Link } from "react-router-dom";
+
 export default function RecentGames({
     title,
     category,
     maxLevel,
     imageUrl,
-    summary
+    summary,
+    _id
 }) {
     return (
         <div className="game">
@@ -15,7 +18,7 @@ export default function RecentGames({
                 <span>☆</span><span>☆</span><span>☆</span><span>☆</span><span>☆</span>
             </div>
             <div className="data-buttons">
-                <a href="#" className="btn details-btn">Details</a>
+                <Link to={`/details/${_id}`} className="btn details-btn">Details</Link>
             </div>
         </div>
     )

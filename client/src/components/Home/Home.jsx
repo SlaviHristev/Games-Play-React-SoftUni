@@ -9,7 +9,7 @@ export default function Home() {
         gamesApi.getLatest()
             .then(setLatestGames)
     },[]);
-    
+
     return (
         <section id="welcome-world">
 
@@ -22,7 +22,7 @@ export default function Home() {
             <div id="home-page">
                 <h1>Latest Games</h1>
 
-                {latestGames.map(game => <RecentGames {...game} />)}
+                {latestGames.map(game => <RecentGames key={game._id} {...game} />)}
 
                 {!latestGames.length && (
                     <p className="no-articles">No games yet</p>)}
