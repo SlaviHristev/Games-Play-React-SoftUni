@@ -4,11 +4,11 @@ import * as gamesApi from '../../../API/gamesApi';
 import * as commentApi from '../../../API/commentsApi';
 import AuthContext from "../../../contexts/authContext";
 
-const reducer = (state,action) =>{
+const reducer = (state, action) => {
     switch (action?.type) {
         case 'GET_ALL_GAMES':
             return [...action.payload];
-        case'ADD_COMMENT':
+        case 'ADD_COMMENT':
             return [...state, action.payload]
         default:
             return state;
@@ -17,21 +17,21 @@ const reducer = (state,action) =>{
 
 export default function Details() {
     const navigate = useNavigate();
-    const { email, _id } = useContext(AuthContext);
+    const { email, _id, isAuthenticated } = useContext(AuthContext);
     const { id } = useParams()
 
     const [game, setGame] = useState({});
-    const [comments, dispatch] = useReducer(reducer,[])
+    const [comments, dispatch] = useReducer(reducer, [])
     useEffect(() => {
         gamesApi.getOne(id)
             .then(setGame)
 
         commentApi.getAll(id)
             .then((result) =>
-            dispatch({
-                type:'GET_ALL_GAMES',
-                payload: result
-            })
+                dispatch({
+                    type: 'GET_ALL_GAMES',
+                    payload: result
+                })
             )
 
     }, [id])
@@ -44,24 +44,24 @@ export default function Details() {
             const newComment = await commentApi.create(
                 id,
                 formData.get('comment')
-                
-            );
-            newComment.owner = {email};
 
-           dispatch({
-            type:'ADD_COMMENT',
-            payload:newComment
-           })
+            );
+            newComment.owner = { email };
+
+            dispatch({
+                type: 'ADD_COMMENT',
+                payload: newComment
+            })
 
         } catch (error) {
             console.log(error);
         }
     }
 
-    const onDeleteHandler = async () =>{
+    const onDeleteHandler = async () => {
         const isConfirmed = confirm('Are you sure you want to delete the game?');
         console.log(isConfirmed);
-        if(isConfirmed){
+        if (isConfirmed) {
             await gamesApi.remove(id);
             navigate('/catalog');
         }
@@ -85,7 +85,7 @@ export default function Details() {
                     <h2>Comments:</h2>
                     <ul>
 
-                        {comments.map(({ _id, text}) => (
+                        {comments.map(({ _id, text }) => (
                             <li key={_id} className="comment">
                                 <p>{email}: {text}</p>
                             </li>
@@ -97,7 +97,7 @@ export default function Details() {
                     )}
 
                 </div>
-                
+
                 {_id === game._ownerId && (
                     <div className="buttons">
                         <Link to={`/details/${game._id}/edit`} className="button">
@@ -107,15 +107,16 @@ export default function Details() {
                     </div>
                 )}
             </div>
+            {isAuthenticated && (
+                <article className="create-comment">
+                    <label>Add new comment:</label>
+                    <form className="form" onSubmit={addCommentHandler}>
+                        <textarea name="comment" placeholder="Comment......" defaultValue={""} />
+                        <input className="btn submit" type="submit" defaultValue="Add Comment" />
+                    </form>
+                </article>
 
-
-            <article className="create-comment">
-                <label>Add new comment:</label>
-                <form className="form" onSubmit={addCommentHandler}>
-                    <textarea name="comment" placeholder="Comment......" defaultValue={""} />
-                    <input className="btn submit" type="submit" defaultValue="Add Comment" />
-                </form>
-            </article>
+            )}
         </section >
 
     )
