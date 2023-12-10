@@ -8,7 +8,7 @@ export default function Home() {
     useEffect(() => {
         gamesApi.getLatest()
             .then(setLatestGames)
-    },[]);
+    }, []);
 
     return (
         <section id="welcome-world">

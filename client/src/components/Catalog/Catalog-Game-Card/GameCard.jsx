@@ -3,10 +3,8 @@ import { Link } from "react-router-dom";
 export default function GameCard({
     category,
     imageUrl,
-    maxLevel,
-    summary,
-    title
-    ,_id
+    title,
+    _id
 }) {
     return (
         <div className="allGames">

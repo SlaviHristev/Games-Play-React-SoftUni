@@ -45,7 +45,7 @@ export default function Edit() {
         <section id="create-page" className="auth">
             <form id="create" onSubmit={onSubmit}>
                 <div className="container">
-                    <h1>Create Game</h1>
+                    <h1>Edit Game</h1>
                     <label htmlFor="leg-title">Legendary title:</label>
                     <input
                         type="text"
@@ -85,7 +85,7 @@ export default function Edit() {
                     />
                     <label htmlFor="summary">Summary:</label>
                     <textarea name="summary" id="summary" value={game.summary} onChange={handleChange} />
-                    <input className="btn submit" type="submit" defaultValue="Create Game" />
+                    <input className="btn submit" type="submit" defaultValue="Edit Game" />
                 </div>
             </form>
         </section>
