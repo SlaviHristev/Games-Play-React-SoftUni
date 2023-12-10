@@ -59,11 +59,14 @@ export default function Details() {
     }
 
     const onDeleteHandler = async () => {
-        const isConfirmed = confirm('Are you sure you want to delete the game?');
-        console.log(isConfirmed);
-        if (isConfirmed) {
-            await gamesApi.remove(id);
-            navigate('/catalog');
+        try {
+            const isConfirmed = confirm('Are you sure you want to delete the game?');
+            if (isConfirmed) {
+                await gamesApi.remove(id);
+                navigate('/catalog');
+            }    
+        } catch (error) {
+            console.log(error);
         }
     }
 

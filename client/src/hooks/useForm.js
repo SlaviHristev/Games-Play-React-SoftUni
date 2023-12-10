@@ -2,7 +2,8 @@ import { useState } from 'react';
 
 const useForm = (initialState, onSubmit) => {
   const [formData, setFormData] = useState(initialState);
-
+  
+  
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({ ...prevData, [name]: value }));

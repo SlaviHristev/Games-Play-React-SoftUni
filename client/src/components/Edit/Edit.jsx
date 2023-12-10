@@ -22,6 +22,7 @@ export default function Edit() {
         .then((result) => {
             setGame(result)
         })
+        .catch((err) => console.log(err))
       }, [id]);
 
       const onSubmit = async (e) => {
@@ -32,6 +33,7 @@ export default function Edit() {
             const res = await gamesApi.edit(id, data);
             navigate('/catalog');
         } catch (error) {
+            alert(error.message);
             console.error('Error submitting form:', error);
         }
     };

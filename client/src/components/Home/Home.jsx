@@ -8,6 +8,7 @@ export default function Home() {
     useEffect(() => {
         gamesApi.getLatest()
             .then(setLatestGames)
+            .catch((err) => console.log(err))
     }, []);
 
     return (
